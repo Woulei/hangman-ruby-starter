@@ -12,8 +12,7 @@ class Hangman
 
   def play!
     welcome
-    print "\n\nType 'y' if you want to see the rules "
-    define_rules if gets.chomp.downcase == "y"
+    define_rules if print_rules?
     while @another_game == true
       reset_game
       puts "\n\nLet's find a new word for you.\nYour word has #{@random_word.length} letters."
@@ -21,25 +20,28 @@ class Hangman
         game_round
         check_for_dead
       end
-      print "Do you want to play another game? (y/n)  "
-      if gets.chomp.downcase == "n"
-        @another_game = false
-      end
+      ask_for_another_game
     end
     puts "See you next time!"
   end
 
   def welcome
     print "Welcome to Hangman!\nWhat is your name? "
-    name = gets.chomp
-    @player = Player.new(name)
+    @player = Player.new(gets.chomp)
     puts "Thank you #{@player.name}, let's play some Hangman!"
   end
 
+  def print_rules?
+    print "\n\nType 'y' if you want to see the rules "
+    gets.chomp.downcase == "y"
+  end
+
   def define_rules
-    puts "\n\nEvery round you have 2 options.\n    1) Guess a letter from this word.\n    2) Guess the entire word."
+    puts "\n\n" + "*" * 40
+    puts "Every round you have 2 options.\n    1) Guess a letter from this word.\n    2) Guess the entire word."
     puts "If your letter isn't in the word you are looking for you get a strike. Same thing guessing the wrong word."
     puts "If you have 10 strikes.. you're DEAD!"
+    puts "*" * 40
   end
 
   def print_word
@@ -56,13 +58,13 @@ class Hangman
     elsif answer.length > 1
       deal_with_word(answer)
     else
-      puts "Sorry, missed that."
+      puts "Sorry, we missed that."
     end
   end
 
   def deal_with_letter(letter)
     @named_letters << letter
-    if @random_word.word.include? letter
+    if @random_word.word.include?(letter)
       puts "Well done!"
       if @random_word.all_letters?(@named_letters)
         @game_ended = true
@@ -91,15 +93,16 @@ class Hangman
     end
   end
 
+  def ask_for_another_game
+    print "Do you want to play another game? (y/n)  "
+    @another_game = false if gets.chomp.downcase == "n"
+  end
+
   def reset_game
     @random_word = RandomWord.new
     @bad_guesses_left = 10
     @named_letters = []
     @game_ended = false
-  end
-
-  def print_score
-    puts " You have #{@player.player_wins} points and the computer has #{@player.player_score}"
   end
 
 end

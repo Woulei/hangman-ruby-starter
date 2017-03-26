@@ -9,7 +9,7 @@ class Player
 
   def player_wins
     @player_score += 1
-    puts "YEAAH     You are right!\nYOU WIN!"
+    puts "\n\nYEAAH     You are right!\nYOU WIN!"
     score
   end
 

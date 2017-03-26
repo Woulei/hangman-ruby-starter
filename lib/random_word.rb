@@ -8,7 +8,7 @@ class RandomWord
   end
 
   def positions_for(characters: [])
-    puts "You already tried these letters: " + characters.join(' ').upcase
+    puts "\nYou already tried these letters: " + characters.join(' ').upcase
     positions = self.word.split(//).map{|i| "_"}
     for i in 0...positions.length
       for j in 0...characters.length
