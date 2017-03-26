@@ -13,7 +13,7 @@ RSpec.describe RandomWord do
     end
 
     it "returns the character positions for all passed in characters" do
-      expect(random_word.positions_for(characters: ["e"])).to eq(["", "", "", "e", "", "", "e", ""])
+      expect(random_word.positions_for(characters: ["e"])).to eq("_ _ _ e _ _ e _")
     end
   end
 end
