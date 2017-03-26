@@ -4,21 +4,20 @@ require File.expand_path("../player", __FILE__)
 class Hangman
   def initialize
     @random_word = RandomWord.new
-    @bad_guesses_left = 3
-    @named_letters = ["a","b"]
+    @bad_guesses_left = 10
+    @named_letters = []
     @game_ended = false
     @another_game = true
   end
 
   def play!
     welcome
-    print "Type 'y' if you want to see the rules "
+    print "\n\nType 'y' if you want to see the rules "
     define_rules if gets.chomp.downcase == "y"
     while @another_game == true
       reset_game
-      @bad_guesses_left = 3
+      puts "\n\nLet's find a new word for you.\nYour word has #{@random_word.length} letters."
       while @game_ended == false
-        puts "Let's find a new word for you."
         game_round
         check_for_dead
       end
@@ -94,7 +93,7 @@ class Hangman
 
   def reset_game
     @random_word = RandomWord.new
-    @bad_guesses_left = 3
+    @bad_guesses_left = 10
     @named_letters = []
     @game_ended = false
   end
